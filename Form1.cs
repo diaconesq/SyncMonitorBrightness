@@ -31,7 +31,7 @@ namespace SyncMonitorBrightness
 
         private void Bs_BrightnessUpdated(byte arg1, int arg2)
         {
-            notifyIcon.Text = $"Builtin monitor: {arg1}%, additional monitor: {arg2}%";
+            notifyIcon.Text = $"Built-in monitor: {arg1}%, additional monitor: {arg2}%";
         }
     }
 }

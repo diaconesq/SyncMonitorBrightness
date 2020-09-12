@@ -26,7 +26,7 @@ namespace SyncMonitorBrightness
                     continue;
                 }
 
-                pmbc.Set((uint)(builtInBrightness - 6));
+                pmbc.Set((uint)(builtInBrightness));
                 sw.Restart();
                 prevBuiltInBrightness = builtInBrightness;
 
