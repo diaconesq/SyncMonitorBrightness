@@ -19,20 +19,27 @@ namespace SyncMonitorBrightness
             while (true)
             {
                 Thread.Sleep(refreshDelay);
-                var builtInBrightness = BuiltInMonitorBrightnessController.Get();
-
-                if (prevBuiltInBrightness == builtInBrightness && sw.Elapsed < forceResyncTimeSpan)
+                try
                 {
-                    continue;
+                    var builtInBrightness = BuiltInMonitorBrightnessController.Get();
+
+                    if (prevBuiltInBrightness == builtInBrightness && sw.Elapsed < forceResyncTimeSpan)
+                    {
+                        continue;
+                    }
+
+                    sw.Restart();
+                    try
+                    {
+                        pmbc.Set((uint)(builtInBrightness));
+                        prevBuiltInBrightness = builtInBrightness;
+                        var additionalMonitorsBrightness = pmbc.Get();
+
+                        BrightnessUpdated?.Invoke(builtInBrightness, additionalMonitorsBrightness);
+                    }
+                    catch { }
                 }
-
-                pmbc.Set((uint)(builtInBrightness));
-                sw.Restart();
-                prevBuiltInBrightness = builtInBrightness;
-
-                var additionalMonitorsBrightness = pmbc.Get();
-
-                BrightnessUpdated?.Invoke(builtInBrightness, additionalMonitorsBrightness);
+                catch { }
             }
         }
 
